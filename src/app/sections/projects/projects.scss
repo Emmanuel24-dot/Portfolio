@@ -1,0 +1,243 @@
+@use 'mixins' as *;
+
+.projects {
+  &__count {
+    font-family: var(--f-mono);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    vertical-align: super;
+    color: var(--mute);
+    margin-left: 0.3rem;
+  }
+
+  &__index {
+    display: none;
+    margin-bottom: clamp(40px, 5vw, 72px);
+    border-top: 1px solid var(--line);
+
+    @include up(md) {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    a {
+      display: grid;
+      gap: 0.25rem;
+      height: 100%;
+      padding: 1.1rem 1rem 1.2rem 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      transition: color 0.3s;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        height: 1px;
+        width: 0;
+        background: var(--accent);
+        transition: width 0.6s var(--ease-out);
+      }
+
+      &:hover {
+        &::before {
+          width: 100%;
+        }
+
+        .projects__index-name {
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  &__index-num {
+    font-family: var(--f-mono);
+    font-size: 0.66rem;
+    color: var(--mute);
+  }
+
+  &__index-name {
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+
+  &__index-cat {
+    font-size: 0.82rem;
+    color: var(--mute);
+    line-height: 1.35;
+  }
+
+  &__list {
+    display: grid;
+    gap: 1.5rem;
+
+    @media (min-width: 1024px) and (min-height: 700px) {
+      gap: 6vh;
+    }
+  }
+}
+
+/* ---------- Project panel ---------- */
+.pcard {
+  --tint: var(--accent);
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+
+  @media (min-width: 1024px) and (min-height: 700px) {
+    position: sticky;
+    top: 88px;
+    height: calc(100svh - 88px - 24px);
+    max-height: 860px;
+  }
+
+  &__inner {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    height: 100%;
+    padding: clamp(16px, 2.6vw, 40px);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(60% 50% at 0% 0%, color-mix(in srgb, var(--tint) 10%, transparent), transparent 70%),
+      var(--ink-2);
+    box-shadow: inset 0 0 0 1px var(--line);
+    transform-origin: 50% 0;
+    overflow: hidden;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(2rem, 4vw, 4.5rem);
+    }
+  }
+
+  &__shade {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+    @include mono(0.66rem);
+  }
+
+  &__num {
+    color: var(--tint);
+
+    span {
+      color: var(--mute);
+    }
+  }
+
+  &__cat {
+    color: var(--bone-2);
+    text-align: right;
+  }
+
+  &__name {
+    margin-top: clamp(1.25rem, 3vh, 2.25rem);
+    font-family: var(--f-display);
+    font-weight: 650;
+    font-variation-settings: 'wdth' 78;
+    font-size: clamp(2.3rem, 1.5rem + 3vw, 4.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  &__desc {
+    margin-top: 1rem;
+    color: var(--bone-2);
+    max-width: 34rem;
+  }
+
+  &__features {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+
+    li {
+      display: flex;
+      gap: 0.7rem;
+      line-height: 1.45;
+
+      &::before {
+        content: '+';
+        flex: none;
+        font-family: var(--f-mono);
+        color: var(--tint);
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+    margin-top: 1.5rem;
+  }
+
+  &__label {
+    @include mono(0.6rem);
+    color: var(--mute);
+    margin-bottom: 0.6rem;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: auto;
+    padding-top: 1.75rem;
+    font-size: 0.95rem;
+
+    .link:hover {
+      color: var(--tint);
+    }
+  }
+
+  &__visual {
+    min-height: 0;
+    order: -1;
+    aspect-ratio: 16 / 11;
+
+    @media (min-width: 1024px) {
+      order: 0;
+      aspect-ratio: auto;
+      min-height: 420px;
+    }
+
+    @media (min-width: 1024px) and (min-height: 700px) {
+      min-height: 0;
+      height: 100%;
+    }
+  }
+}

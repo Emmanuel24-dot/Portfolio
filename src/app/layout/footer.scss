@@ -1,0 +1,113 @@
+@use 'mixins' as *;
+
+.foot {
+  position: relative;
+  padding-top: clamp(64px, 8vw, 120px);
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  background: var(--ink);
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 1.5rem;
+
+    @include up(md) {
+      grid-template-columns: 1fr 1.4fr 1fr auto;
+    }
+  }
+
+  &__col {
+    min-width: 0;
+
+    ul {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    &--end {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+  }
+
+  &__label {
+    @include mono(0.66rem);
+    color: var(--mute);
+    margin-bottom: 1rem;
+  }
+
+  &__link {
+    color: var(--bone-2);
+    overflow-wrap: anywhere;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  &__time {
+    font-family: var(--f-display);
+    font-variation-settings: 'wdth' 80;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__top {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background: var(--bone);
+    }
+  }
+
+  &__word {
+    margin-top: clamp(48px, 8vw, 120px);
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-variation-settings: 'wdth' 75;
+    font-size: clamp(4rem, 24.5vw, 23rem);
+    line-height: 0.82;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+    color: var(--bone);
+    text-transform: uppercase;
+
+    .it {
+      text-transform: none;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+
+    .caret {
+      height: 0.62em;
+      width: 0.18em;
+      margin-left: 0.04em;
+    }
+  }
+
+  &__bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    @include mono(0.66rem);
+    color: var(--mute);
+  }
+}

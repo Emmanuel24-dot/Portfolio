@@ -1,0 +1,42 @@
+:root {
+  /* Palette — thème blanc : fond blanc, encre chaude, un seul accent */
+  --ink: #ffffff;
+  --ink-2: #f6f5f1;
+  --ink-3: #efede7;
+  --ink-4: #e4e1d9;
+  --bone: #141311;
+  --bone-2: #44413b;
+  --mute: #6d685f;
+  --line: rgba(20, 19, 17, 0.1);
+  --line-strong: rgba(20, 19, 17, 0.2);
+  --accent: #d9461a;
+  --accent-soft: rgba(217, 70, 26, 0.14);
+  --on-accent: #ffffff;
+  --ok: #1f9d55;
+
+  /* Section inversée (Stack) — sombre pour rythmer la page blanche */
+  --paper: #141311;
+  --paper-2: #1e1d1a;
+  --paper-ink: #f4f2ed;
+  --paper-mute: #a39e94;
+  --paper-line: rgba(244, 242, 237, 0.12);
+
+  /* Type */
+  --f-display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  --f-serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --f-body: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --gutter: clamp(16px, 4.2vw, 64px);
+  --maxw: 1520px;
+  --nav-h: 68px;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --section-y: clamp(96px, 14vw, 200px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}

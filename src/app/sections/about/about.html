@@ -1,0 +1,86 @@
+<section class="about section" id="profil" #root aria-labelledby="about-title">
+  <div class="container">
+    <header class="about__head">
+      <p class="eyebrow" appReveal><b>[01]</b> Profil</p>
+      <h2 class="sr-only" id="about-title">Qui suis-je ?</h2>
+    </header>
+
+    <p class="about__statement" data-words>
+      Développeur d’applications, je participe à <span class="it">toutes les étapes</span> d’un projet&nbsp;:
+      de l’analyse des besoins jusqu’au déploiement et à la formation des utilisateurs.
+    </p>
+
+    <div class="about__grid">
+      <figure class="about__figure" appReveal="clip">
+        <app-portrait class="about__portrait" [src]="profile.photo" [alt]="profile.photoAlt" caption="Lomé - Togo" />
+        <figcaption class="about__figcap">
+          <span>{{ profile.firstName }} {{ profile.lastName.toUpperCase() }}</span>
+          <span>{{ profile.role }}</span>
+        </figcaption>
+      </figure>
+
+      <div class="about__text">
+        <p class="about__lead" appReveal>
+          Je suis développeur d’applications, formé en informatique, option Développement d’Application.
+        </p>
+        <p appReveal [revealDelay]="80">
+          J’ai participé à la conception et à la réalisation de plusieurs plateformes web et applications de
+          gestion&nbsp;: gestion commerciale d’une quincaillerie, gestion d’agence immobilière, billetterie
+          événementielle, boutiques en ligne, une application mobile, ainsi qu’une dizaine de sites vitrines
+          pour des secteurs variés&nbsp;- BTP, santé, beauté, immobilier, auto-école, formation.
+        </p>
+        <p appReveal [revealDelay]="140">
+          Ma façon de travailler part toujours du terrain&nbsp;: comprendre les besoins, analyser les problèmes,
+          puis proposer des solutions informatiques adaptées. Ce qui m’intéresse, c’est de concevoir des
+          applications <strong>robustes</strong>, <strong>intuitives</strong> et <strong>évolutives</strong>&nbsp;- des
+          outils qu’on utilise vraiment, et qui suivent l’activité quand elle grandit.
+        </p>
+
+        <dl class="about__facts" appReveal [revealDelay]="200">
+          <div>
+            <dt>Formation</dt>
+            <dd>Licence pro. Informatique<br /><span>Développement d’Application</span></dd>
+          </div>
+          <div>
+            <dt>Basé à</dt>
+            <dd>{{ profile.location }}<br /><span>Sur site ou à distance</span></dd>
+          </div>
+          <div>
+            <dt>Ouvert à</dt>
+            <dd>Emploi · Freelance<br /><span>Collaborations</span></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <ol class="approach">
+      @for (step of approach; track step.title; let i = $index) {
+        <li class="approach__item" appReveal [revealDelay]="i * 90">
+          <span class="approach__num">0{{ i + 1 }}</span>
+          <h3 class="approach__title">{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+
+    <div class="cycle" #cycle>
+      <div class="cycle__head">
+        <h3 class="cycle__title" appReveal>Du besoin <span class="it">au déploiement</span></h3>
+        <p class="cycle__note" appReveal>Un seul interlocuteur pour tout le cycle de vie de votre application.</p>
+      </div>
+      <div class="cycle__body">
+      <span class="cycle__rail" aria-hidden="true"><span class="cycle__fill"></span></span>
+      <ol class="cycle__track">
+        @for (s of lifecycle; track s.label; let i = $index) {
+          <li class="cycle__step" data-step>
+            <span class="cycle__dot" aria-hidden="true"></span>
+            <span class="cycle__idx">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <span class="cycle__label">{{ s.label }}</span>
+            <span class="cycle__detail">{{ s.detail }}</span>
+          </li>
+        }
+      </ol>
+      </div>
+    </div>
+  </div>
+</section>

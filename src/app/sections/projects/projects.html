@@ -1,0 +1,96 @@
+<section class="projects section" id="projets" #root aria-labelledby="projects-title">
+  <div class="container">
+    <header class="section-head">
+      <div>
+        <p class="eyebrow" appReveal><b>[03]</b> Réalisations</p>
+        <h2 class="section-head__title" id="projects-title" appReveal [revealDelay]="60">
+          Projets <span class="it">sélectionnés</span>
+          <sup class="projects__count">({{ pad(projects.length) }})</sup>
+        </h2>
+      </div>
+      <p class="section-head__aside" appReveal [revealDelay]="120">
+        Gestion commerciale et immobilière, billetterie, e-commerce et mobile&nbsp;: des projets conçus pour
+        des utilisateurs réels, avec leurs contraintes et leurs usages.
+      </p>
+    </header>
+
+    <ol class="projects__index" appReveal aria-label="Index des projets">
+      @for (p of projects; track p.slug; let i = $index) {
+        <li>
+          <a [href]="'#projet-' + p.slug">
+            <span class="projects__index-num">{{ pad(i + 1) }}</span>
+            <span class="projects__index-name">{{ p.name }}</span>
+            <span class="projects__index-cat">{{ p.category }}</span>
+          </a>
+        </li>
+      }
+    </ol>
+
+    <div class="projects__list">
+      @for (p of projects; track p.slug; let i = $index) {
+        <article class="pcard" [id]="'projet-' + p.slug" [style.--tint]="p.tint" [attr.aria-labelledby]="'pt-' + p.slug">
+          <div class="pcard__inner" data-card>
+            <div class="pcard__info">
+              <div class="pcard__top">
+                <span class="pcard__num">{{ pad(i + 1) }}<span> / {{ pad(projects.length) }}</span></span>
+                <span class="pcard__cat">{{ p.category }}@if (p.client) {<span> - {{ p.client }}</span>}</span>
+              </div>
+
+              <h3 class="pcard__name" [id]="'pt-' + p.slug">{{ p.name }}</h3>
+              <p class="pcard__desc">{{ p.description }}</p>
+
+              @if (p.features.length) {
+                <ul class="pcard__features" aria-label="Fonctionnalités principales">
+                  @for (f of p.features; track f) {
+                    <li>{{ f }}</li>
+                  }
+                </ul>
+              }
+
+              <div class="pcard__meta">
+                @if (p.stack.length) {
+                  <div>
+                    <p class="pcard__label">Technologies</p>
+                    <ul class="pcard__tags">
+                      @for (t of p.stack; track t) {
+                        <li class="tag tag--solid">{{ t }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+                <div>
+                  <p class="pcard__label">Périmètre</p>
+                  <ul class="pcard__tags">
+                    @for (s of p.scope; track s) {
+                      <li class="tag">{{ s }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              <div class="pcard__links">
+                @if (p.liveUrl) {
+                  <a appBtn size="sm" variant="primary" [href]="p.liveUrl" target="_blank" rel="noopener noreferrer"
+                    label="Voir le projet"></a>
+                }
+                @if (p.repoUrl) {
+                  <a class="link" [href]="p.repoUrl" target="_blank" rel="noopener noreferrer">
+                    <app-icon name="github" /> Code source
+                  </a>
+                }
+                <a class="link" href="#contact" (click)="ask(p)">
+                  Parler d’un projet similaire <app-icon name="arrow-up-right" />
+                </a>
+              </div>
+            </div>
+
+            <app-project-visual class="pcard__visual" [project]="p" />
+            <span class="pcard__shade" aria-hidden="true"></span>
+          </div>
+        </article>
+      }
+    </div>
+
+    <app-other-projects />
+  </div>
+</section>

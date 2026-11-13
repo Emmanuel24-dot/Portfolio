@@ -1,0 +1,56 @@
+:host {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--ink-3);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--portrait-pos, 50% 30%);
+}
+
+.portrait__ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 80% at 50% 20%, rgba(217, 70, 26, 0.22), transparent 60%),
+    linear-gradient(180deg, var(--ink-4), var(--ink-2));
+}
+
+.portrait__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--bone);
+  stroke-opacity: 0.12;
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.portrait__mono {
+  position: relative;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: var(--portrait-mono, clamp(3rem, 9vw, 7rem));
+  line-height: 1;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+}
+
+.portrait__cap {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mute);
+}

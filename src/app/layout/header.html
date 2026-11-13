@@ -1,0 +1,74 @@
+<div class="progress" aria-hidden="true">
+  <span [style.transform]="'scaleX(' + progress() + ')'"></span>
+</div>
+
+<header class="nav" [class.is-hidden]="hidden() && !open()" [class.is-scrolled]="scrolled()" [class.is-open]="open()">
+  <div class="nav__inner container">
+    <a class="nav__brand" href="#top" (click)="navigate()" aria-label="Emmanuel Tchedie - retour en haut de page">
+      <span class="nav__mark">ET<i class="caret"></i></span>
+      <span class="nav__name">
+        <span>{{ profile.firstName }} {{ profile.lastName }}</span>
+        <span>{{ profile.role }}</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label="Navigation principale">
+      <ul>
+        @for (link of links; track link.id; let i = $index) {
+          <li>
+            <a [href]="'#' + link.id" [class.is-active]="active() === link.id"
+              [attr.aria-current]="active() === link.id ? 'location' : null">
+              <span class="nav__idx">0{{ i + 1 }}</span>{{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="nav__end">
+      <a class="nav__cta" href="#contact" appMagnetic (click)="navigate()">
+        <span class="status__dot"></span>
+        <span>Discutons</span>
+      </a>
+      <button #menuBtn class="nav__toggle" type="button" (click)="toggle()" [attr.aria-expanded]="open()"
+        aria-controls="site-menu" [attr.aria-label]="open() ? 'Fermer le menu' : 'Ouvrir le menu'">
+        <span class="nav__toggle-label">{{ open() ? 'Fermer' : 'Menu' }}</span>
+        <span class="nav__burger" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="site-menu" class="menu" [class.is-open]="open()" [attr.aria-hidden]="!open()" [attr.inert]="open() ? null : ''">
+  <div class="menu__inner container">
+    <nav aria-label="Menu mobile">
+      <ol class="menu__list">
+        <li style="--i: 0">
+          <a #firstLink href="#top" (click)="navigate()"><span class="menu__idx">00</span>Accueil</a>
+        </li>
+        @for (link of links; track link.id; let i = $index) {
+          <li [style.--i]="i + 1">
+            <a [href]="'#' + link.id" (click)="navigate()" [class.is-active]="active() === link.id">
+              <span class="menu__idx">0{{ i + 1 }}</span>{{ link.label }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+    <div class="menu__foot">
+      <a class="link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+      <p class="status mono"><span class="status__dot"></span>{{ profile.availability }} - {{ profile.location }}</p>
+      @if (socials.length) {
+        <ul class="menu__socials">
+          @for (s of socials; track s.label) {
+            <li>
+              <a [href]="s.url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="s.label">
+                <app-icon [name]="s.icon" />
+              </a>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+</div>

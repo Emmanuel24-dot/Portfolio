@@ -1,0 +1,125 @@
+@let p = project();
+<div class="pv">
+  <div class="pv__bar" aria-hidden="true">
+    <span class="pv__dots"><i></i><i></i><i></i></span>
+    <span class="pv__url">/{{ p.slug }}</span>
+    <span class="pv__kind">{{ p.kind === 'mobile' ? 'mobile + web' : 'web' }}</span>
+  </div>
+
+  <div class="pv__stage">
+    @if (p.image) {
+      <img class="pv__img" (load)="fitRatio($event)" [src]="p.image" [alt]="p.imageAlt || 'Capture du projet ' + p.name" loading="lazy" decoding="async" />
+    } @else {
+      <svg class="pv__art" viewBox="0 0 640 400" [attr.preserveAspectRatio]="p.motif === 'ledger' || p.motif === 'pulse' ? 'xMidYMid slice' : 'xMidYMid meet'" aria-hidden="true">
+        @switch (p.motif) {
+          @case ('ledger') {
+            @for (y of gridY; track y) {
+              <line class="ln" x1="40" x2="600" [attr.y1]="y" [attr.y2]="y" />
+            }
+            @for (h of bars; track $index) {
+              <rect class="bar" [class.bar--hi]="$index === 7" [attr.x]="52 + $index * 54" [attr.y]="350 - h"
+                width="30" [attr.height]="h" rx="5" [style.--i]="$index" />
+            }
+            <path class="stroke-tint draw" d="M66 300 C150 268 210 286 286 214 S440 150 590 92" />
+            <circle class="fill-tint" cx="590" cy="92" r="7" />
+            <circle class="ring-tint" cx="590" cy="92" r="16" />
+          }
+          @case ('modules') {
+            @for (m of modules; track $index) {
+              <g class="card" [style.--i]="$index">
+                <rect [attr.x]="m.x" [attr.y]="m.y" width="176" height="152" rx="16" />
+                <circle class="track" [attr.cx]="m.x + 46" [attr.cy]="m.y + 48" r="22" />
+                <circle class="arc" [attr.cx]="m.x + 46" [attr.cy]="m.y + 48" r="22"
+                  [attr.stroke-dasharray]="(m.pct * 138.2).toFixed(1) + ' 138.2'"
+                  [attr.transform]="'rotate(-90 ' + (m.x + 46) + ' ' + (m.y + 48) + ')'" />
+                <rect class="ph" [attr.x]="m.x + 22" [attr.y]="m.y + 96" width="120" height="9" rx="4.5" />
+                <rect class="ph ph--dim" [attr.x]="m.x + 22" [attr.y]="m.y + 116" width="76" height="9" rx="4.5" />
+              </g>
+            }
+          }
+          @case ('catalog') {
+            @for (t of tiles; track $index) {
+              <g class="card" [style.--i]="$index">
+                <rect [attr.x]="t.x" [attr.y]="t.y" width="132" height="156" rx="14" />
+                <rect class="well" [attr.x]="t.x + 10" [attr.y]="t.y + 10" width="112" height="86" rx="9" />
+                @switch (t.shape) {
+                  @case (0) { <circle class="fill-tint shape" [attr.cx]="t.x + 66" [attr.cy]="t.y + 53" r="24" /> }
+                  @case (1) { <rect class="fill-tint shape" [attr.x]="t.x + 44" [attr.y]="t.y + 31" width="44" height="44" rx="8" /> }
+                  @default { <rect class="fill-tint shape" [attr.x]="t.x + 30" [attr.y]="t.y + 40" width="72" height="26" rx="13" /> }
+                }
+                <rect class="ph" [attr.x]="t.x + 12" [attr.y]="t.y + 112" width="84" height="8" rx="4" />
+                <rect class="ph ph--tint" [attr.x]="t.x + 12" [attr.y]="t.y + 130" width="40" height="12" rx="6" />
+              </g>
+            }
+          }
+          @case ('scan') {
+            <g class="phone">
+              <rect x="150" y="18" width="196" height="364" rx="34" />
+              <rect class="screen" x="162" y="30" width="172" height="340" rx="24" />
+              <rect class="notch" x="222" y="40" width="52" height="10" rx="5" />
+            </g>
+            <circle class="plate" cx="248" cy="170" r="62" />
+            <circle class="plate plate--in" cx="248" cy="170" r="40" />
+            <circle class="fill-tint" cx="232" cy="158" r="13" opacity=".9" />
+            <circle class="fill-tint" cx="262" cy="182" r="9" opacity=".6" />
+            <path class="corners" d="M178 100v-18h18 M300 82h18v18 M318 240v18h-18 M196 258h-18v-18" />
+            <rect class="scanline" x="182" y="86" width="132" height="2" rx="1" />
+            <rect class="ph ph--tint" x="188" y="282" width="120" height="30" rx="15" />
+            <rect class="ph ph--dim" x="196" y="328" width="104" height="8" rx="4" />
+            <g class="panel">
+              <rect x="388" y="86" width="214" height="230" rx="16" />
+              <rect class="ph" x="410" y="108" width="90" height="9" rx="4.5" />
+              @for (h of miniBars; track $index) {
+                <rect class="bar" [class.bar--hi]="$index === 3" [attr.x]="414 + $index * 30" [attr.y]="290 - h"
+                  width="18" [attr.height]="h" rx="4" [style.--i]="$index" />
+              }
+            </g>
+          }
+          @case ('stock') {
+            @for (y of [130, 230, 330]; track y) {
+              <rect class="shelf" x="60" [attr.y]="y" width="520" height="8" rx="4" />
+            }
+            @for (b of boxes; track $index) {
+              <g class="card" [style.--i]="$index">
+                <rect class="box" [class.box--hi]="b.hi" [attr.x]="b.x" [attr.y]="b.y - b.h" [attr.width]="b.w" [attr.height]="b.h" rx="6" />
+                <rect class="ph ph--dim" [attr.x]="b.x + 10" [attr.y]="b.y - b.h + 12" [attr.width]="b.w * 0.5" height="6" rx="3" />
+              </g>
+            }
+            <g class="tagline">
+              <rect class="fill-tint" x="476" y="40" width="104" height="44" rx="22" />
+              @for (x of [494, 502, 507, 515, 520, 528, 536, 541, 549, 556]; track x) {
+                <rect class="code" [attr.x]="x" y="52" [attr.width]="x % 2 ? 2 : 4" height="20" />
+              }
+            </g>
+          }
+          @case ('lookbook') {
+            <line class="rail" x1="70" y1="70" x2="570" y2="70" />
+            @for (c of looks; track $index) {
+              <g class="card" [style.--i]="$index">
+                <path class="hanger" [attr.d]="'M' + (c.x + 70) + ' 70 v14 M' + (c.x + 30) + ' 104 L' + (c.x + 70) + ' 84 L' + (c.x + 110) + ' 104'" />
+                <rect class="frame" [attr.x]="c.x" y="104" width="140" height="240" rx="18" />
+                <path class="fill-tint dress" [style.opacity]="c.o"
+                  [attr.d]="'M' + (c.x + 52) + ' 128 h36 l8 40 l26 140 h-104 l26 -140 z'" />
+              </g>
+            }
+          }
+          @case ('pulse') {
+            @for (y of gridY; track y) {
+              <line class="ln" x1="0" x2="640" [attr.y1]="y" [attr.y2]="y" />
+            }
+            @for (x of [80, 160, 240, 320, 400, 480, 560]; track x) {
+              <line class="ln" y1="40" y2="370" [attr.x1]="x" [attr.x2]="x" />
+            }
+            <path class="stroke-tint ecg" [attr.d]="ecg" />
+            <g class="cross">
+              <circle cx="536" cy="96" r="38" />
+              <path d="M536 76v40M516 96h40" />
+            </g>
+          }
+        }
+      </svg>
+      <span class="pv__note">Visuel illustratif</span>
+    }
+    <span class="pv__shine" aria-hidden="true"></span>
+  </div>
+</div>

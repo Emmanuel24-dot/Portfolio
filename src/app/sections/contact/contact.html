@@ -1,0 +1,168 @@
+<section class="contact section" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <p class="eyebrow" appReveal><b>[06]</b> Contact</p>
+
+    <h2 class="contact__title" id="contact-title">
+      <span class="contact__line" appReveal="clip">Travaillons</span>
+      <span class="contact__line contact__line--2" appReveal="clip" [revealDelay]="120">
+        <span class="it">ensemble</span><i class="caret"></i>
+      </span>
+    </h2>
+
+    <div class="contact__grid">
+      <!-- Canaux directs -->
+      <div class="contact__side">
+        <p class="contact__intro" appReveal>
+          Un projet d’application web ou mobile, une opportunité professionnelle ou une collaboration&nbsp;?
+          Parlons-en. Je suis basé à Lomé et j’interviens aussi à distance.
+        </p>
+
+        <div class="contact__mail" appReveal [revealDelay]="80">
+          <p class="contact__label">Email</p>
+          <div class="contact__mail-row">
+            <a class="contact__mail-link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+            <button class="contact__copy" type="button" (click)="copyEmail()"
+              [attr.aria-label]="'Copier l’adresse ' + contact.email">
+              <app-icon [name]="copied() === 'ok' ? 'check' : 'copy'" />
+              <span>{{ copied() === 'ok' ? 'Copié' : copied() === 'fail' ? 'Indisponible' : 'Copier' }}</span>
+            </button>
+          </div>
+          <p class="sr-only" aria-live="polite">{{ copied() === 'ok' ? 'Adresse email copiée.' : '' }}</p>
+        </div>
+
+        <div class="contact__actions" appReveal [revealDelay]="140">
+          @if (whatsappUrl) {
+            <a appBtn appMagnetic variant="primary" icon="whatsapp" label="Discuter sur WhatsApp" [href]="whatsappUrl"
+              target="_blank" rel="noopener noreferrer"></a>
+          }
+          <a appBtn appMagnetic icon="mail" label="Envoyer un email" [href]="'mailto:' + contact.email"></a>
+        </div>
+
+        <dl class="contact__details" appReveal [revealDelay]="200">
+          <div>
+            <dt>Téléphone</dt>
+            <dd>
+              @for (p of contact.phones; track p.e164) {
+                <a class="contact__tel" [href]="'tel:+' + p.e164">
+                  {{ p.display }}
+                  @if (p.whatsapp) {
+                    <span class="contact__wa">WhatsApp</span>
+                  }
+                </a>
+              }
+            </dd>
+          </div>
+          <div>
+            <dt>Localisation</dt>
+            <dd>{{ profile.location }}<br /><span>GMT · Remote</span></dd>
+          </div>
+          <div>
+            <dt>Disponibilité</dt>
+            <dd class="status"><span class="status__dot"></span>{{ profile.availabilityDetail }}</dd>
+          </div>
+          @if (socials.length) {
+            <div>
+              <dt>Réseaux</dt>
+              <dd class="contact__socials">
+                @for (s of socials; track s.label) {
+                  <a [href]="s.url" target="_blank" rel="noopener noreferrer" class="link">
+                    <app-icon [name]="s.icon" /> {{ s.label }}
+                  </a>
+                }
+              </dd>
+            </div>
+          }
+        </dl>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="contact__panel" appReveal [revealDelay]="100">
+        @switch (state()) {
+          @case ('sent') {
+            <div class="done" role="status">
+              <span class="done__icon"><app-icon name="check" /></span>
+              <h3 class="done__title">Message envoyé.</h3>
+              <p>Merci pour votre message - je reviens vers vous très vite.</p>
+              <button appBtn type="button" size="sm" label="Écrire un autre message" icon="arrow-right" (click)="reset()"></button>
+            </div>
+          }
+          @case ('mailto') {
+            <div class="done" role="status">
+              <span class="done__icon"><app-icon name="mail" /></span>
+              <h3 class="done__title">Votre messagerie s’ouvre.</h3>
+              <p>Le message est pré-rempli&nbsp;: il ne reste qu’à l’envoyer. Rien ne s’est ouvert&nbsp;? Écrivez
+                directement à <a class="link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>.</p>
+              <button appBtn type="button" size="sm" label="Modifier le message" icon="arrow-right" (click)="reset()"></button>
+            </div>
+          }
+          @default {
+            <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+              <div class="form__head">
+                <h3 class="form__title">Écrire un message</h3>
+                <p class="form__hint">Tous les champs sont requis</p>
+              </div>
+
+              <fieldset class="form__subjects">
+                <legend class="form__legend">Objet</legend>
+                @for (s of subjects; track s) {
+                  <label class="chip">
+                    <input type="radio" formControlName="subject" [value]="s" />
+                    <span>{{ s }}</span>
+                  </label>
+                }
+              </fieldset>
+
+              <div class="form__row">
+                <div class="field" [class.is-invalid]="showError('name')">
+                  <input id="cf-name" type="text" formControlName="name" autocomplete="name" placeholder=" "
+                    [attr.aria-invalid]="showError('name')" aria-describedby="cf-name-err" />
+                  <label for="cf-name">Nom complet</label>
+                  <p class="field__err" id="cf-name-err">
+                    @if (showError('name')) { <app-icon name="alert" /> {{ errorText('name') }} }
+                  </p>
+                </div>
+                <div class="field" [class.is-invalid]="showError('email')">
+                  <input id="cf-email" type="email" formControlName="email" autocomplete="email" inputmode="email"
+                    placeholder=" " [attr.aria-invalid]="showError('email')" aria-describedby="cf-email-err" />
+                  <label for="cf-email">Adresse email</label>
+                  <p class="field__err" id="cf-email-err">
+                    @if (showError('email')) { <app-icon name="alert" /> {{ errorText('email') }} }
+                  </p>
+                </div>
+              </div>
+
+              <div class="field field--area" [class.is-invalid]="showError('message')">
+                <textarea #messageField id="cf-message" formControlName="message" rows="5" placeholder=" "
+                  [attr.maxlength]="maxMessage" [attr.aria-invalid]="showError('message')"
+                  aria-describedby="cf-message-err cf-message-count"></textarea>
+                <label for="cf-message">Votre projet, votre besoin…</label>
+                <div class="field__foot">
+                  <p class="field__err" id="cf-message-err">
+                    @if (showError('message')) { <app-icon name="alert" /> {{ errorText('message') }} }
+                  </p>
+                  <span class="field__count" id="cf-message-count">{{ form.controls.message.value.length }} / {{ maxMessage }}</span>
+                </div>
+              </div>
+
+              <div class="form__hp" aria-hidden="true">
+                <label for="cf-website">Ne pas remplir</label>
+                <input id="cf-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="form__foot">
+                <button appBtn type="submit" variant="primary" [label]="state() === 'sending' ? 'Envoi en cours…' : 'Envoyer le message'"
+                  icon="send" [class.is-busy]="state() === 'sending'" [attr.aria-busy]="state() === 'sending'"></button>
+                <p class="form__status" role="status" aria-live="polite">
+                  @if (state() === 'error') {
+                    <span class="form__error">L’envoi a échoué. Réessayez ou écrivez directement à
+                      <a class="link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>.</span>
+                  }
+                </p>
+              </div>
+            </form>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</section>

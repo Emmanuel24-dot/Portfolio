@@ -1,0 +1,47 @@
+<section class="stack" id="stack" aria-labelledby="stack-title">
+  <div class="stack__sheet" #sheet>
+    <div class="container section">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow" appReveal><b>[02]</b> Stack technique</p>
+          <h2 class="section-head__title" id="stack-title" appReveal [revealDelay]="60">
+            Des outils pour <span class="it">chaque couche</span> d’une application.
+          </h2>
+        </div>
+        <div class="section-head__aside" appReveal [revealDelay]="120">
+          <p class="stack__counts">
+            <span><b>{{ total }}</b> technologies</span>
+            <span><b>{{ pad(groups.length) }}</b> domaines</span>
+          </p>
+          <p>De l’interface au serveur, de l’application mobile à la base de données&nbsp;: les langages,
+            frameworks et méthodes avec lesquels je conçois et développe.</p>
+        </div>
+      </header>
+
+      <div class="stack__rows">
+        @for (group of groups; track group.id; let gi = $index) {
+          <article class="srow" appReveal [attr.aria-labelledby]="'stack-' + group.id">
+            <header class="srow__head">
+              <span class="srow__idx">{{ pad(gi + 1) }}</span>
+              <div>
+                <h3 class="srow__title" [id]="'stack-' + group.id">{{ group.label }}</h3>
+                <p class="srow__summary">{{ group.summary }}</p>
+              </div>
+            </header>
+            <ul class="srow__items">
+              @for (t of group.items; track t.name; let ti = $index) {
+                <li class="tech" [style.--d]="ti">
+                  <span class="tech__chip">
+                    <img [src]="'icons/' + t.icon" alt="" width="36" height="36" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="tech__name">{{ t.name }}</span>
+                  <span class="tech__note">{{ t.note }}</span>
+                </li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+    </div>
+  </div>
+</section>

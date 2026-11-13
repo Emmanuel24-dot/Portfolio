@@ -1,0 +1,125 @@
+@use 'mixins' as *;
+
+.xp-section {
+  padding-bottom: clamp(48px, 6vw, 96px);
+}
+
+.timeline {
+  position: relative;
+  border-top: 1px solid var(--line);
+
+  --p: 0;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: var(--line);
+
+    @include up(md) {
+      left: calc(33.33% - 1px);
+    }
+  }
+
+  &::after {
+    background: var(--accent);
+    transform-origin: top;
+    transform: scaleY(var(--p));
+  }
+}
+
+.xp {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(28px, 4vw, 56px) 0 clamp(28px, 4vw, 56px) 1.5rem;
+  border-bottom: 1px solid var(--line);
+
+  @include up(md) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 0;
+    padding-left: 0;
+  }
+
+  /* hover wash */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, transparent, var(--ink-2) 40%);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-out);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &__year {
+    position: relative;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-variation-settings: 'wdth' 75;
+    font-size: clamp(3.6rem, 2rem + 6vw, 8.5rem);
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    color: transparent;
+
+    span {
+      background:
+        linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 0 no-repeat,
+        linear-gradient(var(--ink-4), var(--ink-4));
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: background-size 1.4s var(--ease-out) 0.2s;
+    }
+  }
+
+  &.is-in &__year span {
+    background-size: 100% 100%;
+  }
+
+  &__body {
+    @include up(md) {
+      padding-left: clamp(2rem, 4vw, 4rem);
+    }
+  }
+
+  &__role {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  &__company {
+    margin-top: 0.5rem;
+    @include mono(0.72rem);
+    color: var(--accent);
+
+    span {
+      color: var(--mute);
+    }
+  }
+
+  &__points {
+    margin-top: 1.1rem;
+    color: var(--bone-2);
+    max-width: 38rem;
+    font-size: 1.05rem;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+  }
+}

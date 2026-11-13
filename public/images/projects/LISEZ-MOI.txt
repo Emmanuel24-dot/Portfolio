@@ -1,0 +1,5 @@
+Déposez ici les captures de vos projets (format conseillé : .webp ou .jpg, environ 1600 x 1000 px).
+
+Puis indiquez le chemin dans src/app/core/data/portfolio.data.ts, par exemple :
+  image: 'images/projects/quincapro.webp',
+  imageAlt: 'Tableau de bord de Quincapro',

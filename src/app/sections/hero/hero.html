@@ -1,0 +1,55 @@
+<section class="hero" id="top" #root aria-labelledby="hero-title">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="hero__meta container" data-intro>
+    <p>Portfolio <span class="hero__dim">- {{ year }}</span></p>
+    <p class="hero__meta-mid">{{ profile.location }} <span class="hero__dim">{{ profile.coordinates }}</span></p>
+    <p><app-local-time [zone]="profile.timezone" />&nbsp;<span class="hero__dim">GMT</span></p>
+  </div>
+
+  <h1 class="hero__title container" id="hero-title">
+    <span class="sr-only">{{ profile.firstName }} {{ profile.lastName.toUpperCase() }} - {{ profile.role }}</span>
+    <span class="hero__line hero__line--1" aria-hidden="true">
+      <span class="hero__word" data-split>{{ profile.firstName }}</span>
+      <span class="hero__role-tag" data-intro>
+        <span>{{ profile.role }}</span>
+        <span class="it">{{ profile.roleDetail }}</span>
+      </span>
+    </span>
+    <span class="hero__line hero__line--2" aria-hidden="true">
+      <app-portrait class="hero__portrait" [src]="profile.photo" [alt]="profile.photoAlt" [priority]="true" />
+      <span class="hero__word" data-split>{{ profile.lastName }}</span><i class="caret hero__caret"></i>
+    </span>
+  </h1>
+
+  <div class="hero__body container">
+    <div class="hero__copy">
+      <p class="hero__tagline" data-intro>{{ profile.tagline }}</p>
+      <p class="hero__sub" data-intro>{{ profile.subline }}</p>
+
+      <div class="hero__actions" data-intro>
+        <a appBtn appMagnetic href="#projets" label="Découvrir mes projets" icon="arrow-down" variant="primary"></a>
+        <a appBtn appMagnetic href="#contact" label="Me contacter"></a>
+      </div>
+
+      <p class="hero__status status" data-intro>
+        <span class="status__dot"></span>
+        <span><strong>{{ profile.availability }}</strong> - {{ profile.availabilityDetail }}</span>
+      </p>
+    </div>
+
+    <app-system-map class="hero__map" data-intro />
+  </div>
+
+  <div class="hero__marquee" data-intro aria-label="Étapes de mon intervention sur un projet">
+    <div class="hero__track">
+      @for (round of [0, 1]; track round) {
+        <ul [attr.aria-hidden]="round === 1 ? 'true' : null">
+          @for (step of lifecycle; track step.label) {
+            <li>{{ step.label }} <span class="it">{{ step.detail }}</span><i>✦</i></li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+</section>

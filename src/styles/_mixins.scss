@@ -1,0 +1,38 @@
+// Breakpoints — mobile first
+$bp: (
+  sm: 640px,
+  md: 900px,
+  lg: 1200px,
+  xl: 1500px,
+);
+
+@mixin up($key) {
+  @media (min-width: map-get($bp, $key)) {
+    @content;
+  }
+}
+
+@mixin down($key) {
+  @media (max-width: (map-get($bp, $key) - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin reduced {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin mono($size: 0.75rem) {
+  font-family: var(--f-mono);
+  font-size: $size;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

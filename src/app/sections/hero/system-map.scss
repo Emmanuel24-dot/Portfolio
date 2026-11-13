@@ -1,0 +1,188 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.map {
+  position: relative;
+  border-radius: 22px;
+  background:
+    radial-gradient(90% 60% at 50% 45%, rgba(217, 70, 26, 0.08), transparent 70%),
+    var(--ink-2);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    0 40px 80px -40px rgba(20, 19, 17, 0.22);
+  overflow: hidden;
+  transition: transform 0.8s var(--ease-out);
+  will-change: transform;
+
+  &__bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    @include mono(0.64rem);
+    color: var(--mute);
+  }
+
+  &__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+
+    i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: caret-blink 1.6s steps(1, end) infinite;
+    }
+  }
+
+  &__svg {
+    width: 100%;
+    height: auto;
+    padding: 0.4rem 0.6rem 0;
+  }
+
+  &__log {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 3rem;
+    padding: 0.8rem 1.1rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--f-mono);
+    font-size: 0.76rem;
+    color: var(--bone-2);
+    white-space: nowrap;
+    overflow: hidden;
+
+    .caret {
+      width: 0.55em;
+      height: 1.05em;
+      margin-left: -0.3rem;
+    }
+  }
+
+  &__prompt {
+    color: var(--accent);
+  }
+
+  &__key {
+    color: var(--mute);
+    min-width: 6.5em;
+  }
+
+  &__ok {
+    margin-left: auto;
+    color: var(--ok);
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.3s,
+      transform 0.4s var(--ease-spring);
+
+    &.is-on {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+.dot {
+  fill: var(--bone);
+  opacity: 0.12;
+}
+
+.wire {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.2;
+
+  &--flow {
+    stroke: var(--accent);
+    stroke-opacity: 0.55;
+    stroke-dasharray: 2 8;
+    animation: flow 1.4s linear infinite;
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.tag {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  fill: var(--mute);
+}
+
+.node {
+  rect {
+    fill: var(--ink-3);
+    stroke: var(--line-strong);
+    stroke-width: 1;
+    transition: fill 0.4s;
+  }
+
+  &__label {
+    font-family: var(--f-display);
+    font-size: 16px;
+    font-weight: 600;
+    fill: var(--bone);
+    letter-spacing: -0.01em;
+  }
+
+  &__sub {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    fill: var(--mute);
+  }
+
+  &--core {
+    rect {
+      fill: var(--accent);
+      stroke: none;
+    }
+
+    .node__label {
+      fill: var(--on-accent);
+    }
+
+    .node__sub {
+      fill: rgba(255, 255, 255, 0.82);
+    }
+  }
+
+  &:hover rect {
+    fill: var(--ink-4);
+  }
+
+  &--core:hover rect {
+    fill: var(--accent);
+  }
+}
+
+.packet {
+  fill: var(--bone);
+
+  &--back {
+    fill: var(--accent);
+  }
+}
+
+@include reduced {
+  .wire--flow,
+  .map__live i {
+    animation: none;
+  }
+
+  .packet {
+    display: none;
+  }
+}
